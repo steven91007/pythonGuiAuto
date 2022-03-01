@@ -1,1 +1,5 @@
 *.XLSX
+ExcelFiles/料號參數.xlsm
+*.jpg
+.idea/
+.ipynb_checkpoints/
