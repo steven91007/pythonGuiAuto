@@ -2,3 +2,6 @@ pyautogui
 pyperclip
 pynput
 openpyxl
+pandas
+xlwings
+pypiwin
