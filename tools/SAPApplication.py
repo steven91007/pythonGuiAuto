@@ -72,14 +72,16 @@ class SAPApplication:
     def DownloadSpecs(self, session, part_no):
 
         if not session:
-            print('API connect wrongly')
-            return
+
+            return 'API connect wrongly'
         try:
             self._DownloadSpecs(session, part_no)
 
         except pywintypes.com_error:
-            print(session.findById('/app/con[0]/ses[0]/wnd[0]/sbar/pane[0]').text)
-            return
+            error_msg = session.findById('/app/con[0]/ses[0]/wnd[0]/sbar/pane[0]').text
+            session.findById("wnd[0]").close()
+            session.findById("wnd[1]/usr/btnSPOP-OPTION1").press()
+            return error_msg
 
     def _DownloadSpecs(self, session, part_no):
 
@@ -135,14 +137,14 @@ class SAPApplication:
     def DownloadBOMForm(self, session,part_no):
 
         if not session:
-            print('API connect wrongly')
-            return
-        # try:
-        self._DownloadBOMForm(session, part_no)
-
-        # except pywintypes.com_error:
-        #     print(session.findById('/app/con[0]/ses[0]/wnd[0]/sbar/pane[0]').text)
-        #     return
+            return 'API connect wrongly'
+        try:
+            self._DownloadBOMForm(session, part_no)
+        except pywintypes.com_error:
+            error_msg = session.findById('/app/con[0]/ses[0]/wnd[0]/sbar/pane[0]').text
+            session.findById("wnd[0]").close()
+            session.findById("wnd[1]/usr/btnSPOP-OPTION1").press()
+            return error_msg
 
     def _DownloadBOMForm(self, session, part_no):
 

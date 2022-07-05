@@ -9,36 +9,10 @@ from win32com import client
 import openpyxl
 from openpyxl.styles.borders import Border, Side
 from openpyxl.styles import PatternFill
+from tools.RequestAPI import API
+from dataclasses import asdict
+from dacite import from_dict
 
-
-fake_data =  {
-
-        'id':1,
-
-        'deltaPN':"123", 'modelName':"TestModel",
-
-        'magName':"羅志傑", 'eeName':"羅志傑",
-
-        'samples': [
-            {'name': "點膠固定", 'quantity': 1, 'date':"20220610"},
-
-            {'name': "點膠固定", 'quantity': 1, 'date':"20220610"},
-
-            {'name': "點膠固定", 'quantity': 1, 'date':"20220610"},
-
-            {'name': "點膠固定", 'quantity': 1, 'date':"20220610"},
-
-            {'name': "點膠固定", 'quantity': 1, 'date':"20220610"}
-
-        ],
-
-        'remarks': [
-
-            "製作方式：不限", "自定義備註說明"
-
-        ]
-
-    }
 
 class ExcelApplication:
 
@@ -258,7 +232,7 @@ class ExcelApplication:
 
         return pdf_path
 
-def ExcelOperator(path, part_no):
+def ExcelOperator(path, part_no, data):
 
     excel_application = ExcelApplication(path, part_no)
     df = pd.read_excel('BoomForm/{}.xlsx'.format(part_no))
@@ -274,14 +248,16 @@ def ExcelOperator(path, part_no):
     save_excel_path = os.path.join(os.getcwd(), 'BoomForm/{}.xlsx'.format(part_no))
     infos.to_excel(save_excel_path, index = False)
 
-    infos = fake_data
-    infos['date'] = date
-    infos['rev'] = rev
-    exclude_boarder_index = excel_application.InsertInformationCard(infos, save_excel_path)
+    infos = data
+    infos.date = date
+    infos.rev = rev
+
+    infos_dict = asdict(infos)
+    exclude_boarder_index = excel_application.InsertInformationCard(infos_dict, save_excel_path)
     excel_application.ExcelBoarder(save_excel_path, exclude_boarder_index)
     pdf_path = excel_application.Convert2PDF(save_excel_path, '')
 
-    return pdf_path
+    return pdf_path, infos
 
 if __name__ == '__main__':
     part_no = '2870676303'

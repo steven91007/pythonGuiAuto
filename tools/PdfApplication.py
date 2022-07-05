@@ -62,16 +62,17 @@ class PdfApplication:
 
             src = Pdf.open(pdf_path)
             new_pdf.pages.extend(src.pages)
-        new_pdf.save(output_pdf)
-        return output_pdf
+        output_pdf_path = os.path.join('TenCodeMergePDF', output_pdf)
+        new_pdf.save(output_pdf_path)
+        return output_pdf_path
 
-    def PDFPrinter(self, pdf_path):
+    @staticmethod
+    def PDFPrinter(pdf_path):
 
         acrobat = r'C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe'
         name = win32print.GetDefaultPrinter()
         cmd = '"{}" /n /o /t "{}" "{}"'.format(acrobat, pdf_path, name)
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
 
 if __name__ == '__main__':
     pdf_path = r'C:\Users\amo.cy.hsu\PycharmProjects\pythonGuiAuto\tools\287070330208.pdf'

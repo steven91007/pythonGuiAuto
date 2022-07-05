@@ -1,0 +1,1 @@
+2022-06-24 12:59:45.463 SAPApplication.py[61] LogInMenu -> 2022-06-24 13:56:25.836 SAPApplication.py[61] LogInMenu -> 
